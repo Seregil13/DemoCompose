@@ -22,14 +22,16 @@ object TheMovieDbApiService : ITheMovieDbApiService {
 
     override suspend fun movies(
         movieApi: MovieApi,
-        page: Int?,
+        page: Int,
         region: String?,
         language: String?
     ): PagedResponse<MovieListItemResponse> {
         return KtorClient.client
             .get(movieApi.path) {
                 url {
-                    parameters.append("page", "${page ?: 1}")
+                    parameters.append("page", "$page")
+                    if (region != null) parameters.append("region", region)
+                    if (language != null) parameters.append("language", language)
                 }
             }
             .body()

@@ -9,7 +9,7 @@ import com.example.domain.database.entity.MovieListItem
 import com.example.domain.database.entity.PageKeys
 import timber.log.Timber
 
-@Database(entities = [MovieListItem::class, PageKeys::class], version = 1, exportSchema = false)
+@Database(entities = [MovieListItem::class, PageKeys::class], version = 3, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class TheMovieDB: RoomDatabase() {
     abstract fun moviesDao(): MoviesDao

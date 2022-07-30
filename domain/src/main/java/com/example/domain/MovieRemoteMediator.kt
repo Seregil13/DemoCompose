@@ -12,7 +12,6 @@ import com.example.network.ITheMovieDbApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
-import kotlinx.datetime.toLocalDate
 import timber.log.Timber
 import kotlin.time.Duration
 
@@ -82,16 +81,7 @@ class MovieRemoteMediator(
             val nextKey = if (response.page < response.totalPages) response.page + 1 else null
 
             val movies = response.results.map {
-                MovieListItem(
-                    movieId = it.id,
-                    title = it.title,
-                    releaseDate = if (it.releaseDate.isNotBlank()) it.releaseDate.toLocalDate() else null,
-                    popularity = it.popularity,
-                    posterUrl = it.posterPath,
-                    api = api.name,
-                    page = response.page,
-                    lastUpdateTime = Clock.System.now()
-                )
+                MovieListItem.fromNetworkObject(it, api.name, response.page)
             }
 
             database.withTransaction {

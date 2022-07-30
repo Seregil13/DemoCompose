@@ -13,7 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.democompose.ui.widget.MovieWidget
 import org.koin.androidx.compose.getViewModel
+import timber.log.Timber
 
 @Composable
 fun MovieList(
@@ -42,9 +44,10 @@ fun MovieList(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                MovieListItem(
+                MovieWidget.FullWidthCard(
                     movie = movie,
-                    onClick = { Log.d("MovieList", "MovieList: Tapped movie ${movie.title}") })
+                    onClick = { Timber.d("Tapped movie ${movie.title}") }
+                )
             }
         }
 

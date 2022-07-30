@@ -22,4 +22,7 @@ interface MoviesDao {
     @Query("SELECT * FROM movies WHERE api = :api")
     suspend fun getMovies(api: String): List<MovieListItem>
 
+    @Query("SELECT * FROM movies WHERE api = :api AND page = :page")
+    suspend fun getMovies(api: String, page: Int): List<MovieListItem>
+
 }

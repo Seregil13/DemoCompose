@@ -11,7 +11,7 @@ interface ITheMovieDbApiService {
 
     suspend fun movies(
         movieApi: MovieApi,
-        page: Int? = 1,
+        page: Int,
         region: String? = null,
         language: String? = null
     ): PagedResponse<MovieListItemResponse>

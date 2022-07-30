@@ -7,7 +7,6 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
@@ -20,7 +19,7 @@ object KtorClient {
 
     var logger: NetworkLogger? = null
 
-    val json = Json {
+    private val json = Json {
         prettyPrint = true
         isLenient = true
         ignoreUnknownKeys = true
@@ -46,14 +45,5 @@ object KtorClient {
             }
         }
     }
-
-    suspend fun get(urlSuffix: String): HttpResponse {
-        return client.get() {
-            url("${BASE_URL}/${urlSuffix}")
-        }
-    }
 }
 
-interface NetworkLogger {
-    fun log(message: String)
-}

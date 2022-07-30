@@ -9,11 +9,17 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.democompose.R
+import com.example.democompose.ui.theme.DemoComposeTheme
 import com.example.domain.ImageUrlBuilder
+import com.example.domain.PosterImageSize
+import kotlinx.datetime.LocalDate
 import com.example.domain.database.entity.MovieListItem as Movie
 
 @Composable
@@ -35,14 +41,15 @@ fun MovieListItem(
 
             if (movie.posterUrl != null) {
                 AsyncImage(
-                    model = ImageUrlBuilder.getMoviePosterImageUrl(movie.posterUrl!!),
+                    model = ImageUrlBuilder.getMoviePosterImageUrl(size = PosterImageSize.W185,movie.posterUrl!!),
                     contentDescription = movie.title,
-                    modifier = Modifier.weight(1f)
+                    placeholder = painterResource(id = R.drawable.large_movie_poster),
+                    modifier = Modifier
                 )
             }
 
             Column(
-                modifier = Modifier.weight(4f, true)
+                modifier = Modifier
             ) {
                 Text(
                     text = movie.title,
@@ -54,5 +61,27 @@ fun MovieListItem(
 
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewMovieListItem() {
+    DemoComposeTheme {
+        MovieListItem(
+            movie = Movie(
+                id = 0,
+                movieId = 1,
+                title = "Red Notice",
+                releaseDate = LocalDate(2020, 4, 3),
+                popularity = 4.0,
+                posterUrl = null,
+                overview = "This is the overview of a movie.",
+                api = "popular",
+                page = 1,
+                lastUpdateTime = null
+            ),
+            onClick = {}
+        )
     }
 }
