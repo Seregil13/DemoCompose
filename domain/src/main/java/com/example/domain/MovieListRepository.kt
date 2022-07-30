@@ -7,27 +7,17 @@ import androidx.paging.PagingData
 import com.example.domain.database.TheMovieDB
 import com.example.domain.database.entity.MovieListItem
 import com.example.network.ITheMovieDbApiService
-import com.example.network.TheMovieDbApiService
 import kotlinx.coroutines.flow.Flow
+import kotlin.time.Duration.Companion.hours
 
 class MovieListRepository(
     private val movieService: ITheMovieDbApiService,
     private val database: TheMovieDB
 ) {
-
     @OptIn(ExperimentalPagingApi::class)
-    fun getMovieList(api: MovieApi): Flow<PagingData<MovieListItem>> = Pager<Int, MovieListItem>(
-        config = PagingConfig(pageSize = 20),
-        remoteMediator = MovieRemoteMediator(database, movieService, api.toNetworkApi()),
-        pagingSourceFactory = { database.moviesDao().pagingSource(api.toNetworkApi().name) }
+    fun getMovieList(api: MovieApi): Flow<PagingData<MovieListItem>> = Pager(
+        config = PagingConfig(pageSize = 20, initialLoadSize = 20),
+        remoteMediator = MovieRemoteMediator(database, movieService, api, 1.hours),
+        pagingSourceFactory = { database.moviesDao().pagingSource(api.name) }
     ).flow
-}
-
-enum class MovieApi {
-    POPULAR;
-
-
-    internal fun toNetworkApi(): TheMovieDbApiService.MovieApi = when(this) {
-        POPULAR -> TheMovieDbApiService.MovieApi.POPULAR
-    }
 }

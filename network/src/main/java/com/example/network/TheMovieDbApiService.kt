@@ -20,17 +20,18 @@ object TheMovieDbApiService : ITheMovieDbApiService {
             .body()
     }
 
-    override suspend fun popularMovies(page: Int?): PagedResponse<MovieListItemResponse> {
+    override suspend fun movies(
+        movieApi: MovieApi,
+        page: Int?,
+        region: String?,
+        language: String?
+    ): PagedResponse<MovieListItemResponse> {
         return KtorClient.client
-            .get("movie/popular") {
+            .get(movieApi.path) {
                 url {
                     parameters.append("page", "${page ?: 1}")
                 }
             }
             .body()
-    }
-
-    enum class MovieApi {
-        POPULAR
     }
 }

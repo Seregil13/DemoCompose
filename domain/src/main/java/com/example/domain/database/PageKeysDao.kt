@@ -18,4 +18,7 @@ interface PageKeysDao {
     @Query("DELETE FROM pages WHERE api = :api")
     suspend fun deleteByApi(api: String)
 
+    @Query("SELECT * FROM pages WHERE page = :i")
+    suspend fun pageByNumber(i: Int): PageKeys
+
 }

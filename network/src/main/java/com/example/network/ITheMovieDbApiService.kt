@@ -8,5 +8,11 @@ import com.example.network.response.PagedResponse
 interface ITheMovieDbApiService {
     suspend fun configuration(): ConfigurationResponse
     suspend fun movie(movieId: Int): MovieResponse
-    suspend fun popularMovies(page: Int? = 1): PagedResponse<MovieListItemResponse>
+
+    suspend fun movies(
+        movieApi: MovieApi,
+        page: Int? = 1,
+        region: String? = null,
+        language: String? = null
+    ): PagedResponse<MovieListItemResponse>
 }

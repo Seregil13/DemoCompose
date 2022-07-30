@@ -2,6 +2,7 @@ package com.example.democompose.movielist
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -22,13 +23,12 @@ fun MovieList(
 
     Log.d("MovieList", "MovieList: ${movies.itemCount}")
 
-    LazyColumn(
-    ) {
+    LazyColumn {
         if (movies.loadState.refresh == LoadState.Loading) {
-            item() {
+            item {
                 CircularProgressIndicator(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxSize()
                         .wrapContentWidth(Alignment.CenterHorizontally)
                         .wrapContentHeight(Alignment.CenterVertically)
                 )
@@ -42,12 +42,14 @@ fun MovieList(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                MovieListItem(movie = movie, onClick = { Log.d("MovieList", "MovieList: Tapped movie ${movie.title}") })
+                MovieListItem(
+                    movie = movie,
+                    onClick = { Log.d("MovieList", "MovieList: Tapped movie ${movie.title}") })
             }
         }
 
         if (movies.loadState.append == LoadState.Loading) {
-            item() {
+            item {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .fillMaxWidth()
