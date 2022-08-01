@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.democompose.movielist.MovieList
+import com.example.democompose.exploremovie.ExploreScreen
 import com.example.democompose.ui.theme.DemoComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MovieList()
+                    ExploreScreen()
                 }
             }
         }

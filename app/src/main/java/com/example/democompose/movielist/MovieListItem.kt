@@ -43,7 +43,7 @@ fun MovieListItem(
                 AsyncImage(
                     model = ImageUrlBuilder.getMoviePosterImageUrl(size = PosterImageSize.W185,movie.posterUrl!!),
                     contentDescription = movie.title,
-                    placeholder = painterResource(id = R.drawable.large_movie_poster),
+                    placeholder = painterResource(id = R.drawable.movies_placeholder),
                     modifier = Modifier
                 )
             }

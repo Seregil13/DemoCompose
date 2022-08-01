@@ -14,17 +14,8 @@ class ExploreMoviesViewModel(
     private val repository: MovieRepository
 ) : ViewModel() {
 
-    //    POPULAR,
-    //    LATEST,
-    //    TOP_RATED,
-    //    UPCOMING,
-    //    NOW_PLAYING
-
     private val _popularMovies: MutableStateFlow<List<Movie>> = MutableStateFlow(emptyList())
     val popularMovies: StateFlow<List<Movie>> = _popularMovies
-
-    private val _latestMovies: MutableStateFlow<List<Movie>> = MutableStateFlow(emptyList())
-    val latestMovies: StateFlow<List<Movie>> = _latestMovies
 
     private val _topRatedMovies: MutableStateFlow<List<Movie>> = MutableStateFlow(emptyList())
     val topRatedMovies: StateFlow<List<Movie>> = _topRatedMovies
@@ -38,7 +29,6 @@ class ExploreMoviesViewModel(
     fun fetchData() {
         viewModelScope.launch(Dispatchers.IO) {
             launch { getPopularMovies() }
-            launch { getLatestMovies() }
             launch { getTopRatedMovies() }
             launch { getUpcomingMovies() }
             launch { getNowPlayingMovies() }
@@ -48,11 +38,6 @@ class ExploreMoviesViewModel(
     private suspend fun getPopularMovies() {
         val movies = repository.getMovieList(MovieApi.POPULAR, 1)
         _popularMovies.value = movies
-    }
-
-    private suspend fun getLatestMovies() {
-        val movies = repository.getMovieList(MovieApi.LATEST, 1)
-        _latestMovies.value = movies
     }
 
     private suspend fun getNowPlayingMovies() {
