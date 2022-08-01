@@ -45,7 +45,7 @@ class DemoApplication : Application() {
     }
 
     private val viewModelModule = module {
-        viewModel { MovieListViewModel(get()) }
+        viewModel { params -> MovieListViewModel(params.get(), get()) }
         viewModel { ExploreMoviesViewModel(get()) }
     }
 }

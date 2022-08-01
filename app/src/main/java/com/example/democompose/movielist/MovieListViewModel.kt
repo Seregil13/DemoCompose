@@ -5,14 +5,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.domain.MovieApi
-import com.example.domain.repository.MovieRepository
 import com.example.domain.database.entity.MovieListItem
+import com.example.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 
 class MovieListViewModel(
+    movieApi: MovieApi,
     repository: MovieRepository,
 ): ViewModel() {
 
-    val movies: Flow<PagingData<MovieListItem>> = repository.getPagedMovieList(MovieApi.POPULAR)
+    val movies: Flow<PagingData<MovieListItem>> = repository.getPagedMovieList(movieApi)
         .cachedIn(viewModelScope)
 }

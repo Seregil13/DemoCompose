@@ -18,16 +18,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.democompose.ui.widget.MovieList
+import com.example.domain.MovieApi
 import com.example.domain.database.entity.MovieListItem
 import org.koin.androidx.compose.getViewModel
-import timber.log.Timber
 
 @Composable
-fun ExploreScreen(
+fun MovieExploreScreen(
+    showUpButton: (Boolean) -> Unit,
+    setScaffoldTitle: (String) -> Unit,
+    navigateToMovieList: (MovieApi) -> Unit,
+    navigateToMovieDetails: (Int) -> Unit,
     viewModel: ExploreMoviesViewModel = getViewModel()
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchData()
+        showUpButton(false)
+        setScaffoldTitle("Explore Movies")
     }
 
     val popularMovies = viewModel.popularMovies.collectAsState()
@@ -41,8 +47,8 @@ fun ExploreScreen(
                 ExploreMovieSection(
                     movieList = popularMovies.value,
                     header = "Popular",
-                    onHeaderClicked = { Timber.d("Navigate to MovieListScreen with popular arg") },
-                    onMovieClicked = { Timber.d("Navigate to movie details") }
+                    onHeaderClicked = { navigateToMovieList(MovieApi.POPULAR) },
+                    onMovieClicked = { navigateToMovieDetails(it) }
                 )
             }
         }
@@ -52,8 +58,8 @@ fun ExploreScreen(
                 ExploreMovieSection(
                     movieList = upcomingMovies.value,
                     header = "Upcoming",
-                    onHeaderClicked = { Timber.d("Navigate to MovieListScreen with upcoming arg") },
-                    onMovieClicked = { Timber.d("Navigate to movie details") }
+                    onHeaderClicked = { navigateToMovieList(MovieApi.UPCOMING) },
+                    onMovieClicked = { navigateToMovieDetails(it) }
                 )
             }
         }
@@ -63,8 +69,8 @@ fun ExploreScreen(
                 ExploreMovieSection(
                     movieList = topRatedMovies.value,
                     header = "Top Rated",
-                    onHeaderClicked = { Timber.d("Navigate to MovieListScreen with top rated arg") },
-                    onMovieClicked = { Timber.d("Navigate to movie details") }
+                    onHeaderClicked = { navigateToMovieList(MovieApi.TOP_RATED) },
+                    onMovieClicked = { navigateToMovieDetails(it) }
                 )
             }
         }
@@ -74,8 +80,8 @@ fun ExploreScreen(
                 ExploreMovieSection(
                     movieList = nowPlayingMovies.value,
                     header = "Now Playing",
-                    onHeaderClicked = { Timber.d("Navigate to MovieListScreen with now playing arg") },
-                    onMovieClicked = { Timber.d("Navigate to movie details") }
+                    onHeaderClicked = { navigateToMovieList(MovieApi.NOW_PLAYING) },
+                    onMovieClicked = { navigateToMovieDetails(it) }
                 )
             }
         }
