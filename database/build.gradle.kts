@@ -1,8 +1,7 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    alias(libs.plugins.ksp)
+    id("com.google.devtools.ksp") version("1.7.0-1.0.6")
 }
 
 android {
@@ -36,17 +35,18 @@ android {
 }
 
 dependencies {
+    implementation(Dependencies.AndroidX.Room.runtime)
+    ksp(Dependencies.AndroidX.Room.compiler)
+    implementation(Dependencies.AndroidX.Room.ktx)
+    implementation(Dependencies.AndroidX.Room.paging)
 
-    implementation(libs.bundles.room)
-    ksp(libs.androidx.room.compiler)
+    implementation(Dependencies.KotlinX.datetime)
+    implementation(Dependencies.Koin.core)
 
-    implementation(libs.kotlinx.datetime)
-    implementation(libs.koin.core)
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.google.material)
-    testImplementation(libs.test.junit)
-    androidTestImplementation(libs.test.junit.android)
-    androidTestImplementation(libs.test.espresso)
+    implementation(Dependencies.AndroidX.ktx)
+    implementation(Dependencies.AndroidX.appcompat)
+    implementation(Dependencies.googleMaterial)
+    testImplementation(Dependencies.Test.junit)
+    androidTestImplementation(Dependencies.Test.androidxJunit)
+    androidTestImplementation(Dependencies.Test.espresso)
 }

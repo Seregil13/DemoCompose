@@ -1,11 +1,10 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-    alias(libs.plugins.serialization)
-    alias(libs.plugins.buildConfig)
+    id("org.jetbrains.kotlin.plugin.serialization") version("1.7.0")
+    id("com.github.gmazzo.buildconfig") version("3.1.0")
 }
 
 java {
@@ -14,7 +13,12 @@ java {
 }
 
 dependencies {
-    implementation(libs.bundles.ktor)
+    implementation(Dependencies.Ktor.core)
+    implementation(Dependencies.Ktor.engine)
+    implementation(Dependencies.Ktor.okhttp)
+    implementation(Dependencies.Ktor.logging)
+    implementation(Dependencies.Ktor.contentNegotiation)
+    implementation(Dependencies.Ktor.serialization)
 }
 
 buildConfig {

@@ -1,9 +1,8 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.serialization)
+    id("com.google.devtools.ksp") version("1.7.0-1.0.6")
+    id("org.jetbrains.kotlin.plugin.serialization") version("1.7.0")
 }
 
 android {
@@ -40,22 +39,24 @@ dependencies {
     implementation(project(":network"))
     implementation(project(":database"))
 
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.compose)
+    implementation(Dependencies.AndroidX.Paging.runtime)
+    implementation(Dependencies.AndroidX.Paging.compose)
 
-    implementation(libs.bundles.room)
-    ksp(libs.androidx.room.compiler)
+    implementation(Dependencies.AndroidX.Room.runtime)
+    ksp(Dependencies.AndroidX.Room.compiler)
+    implementation(Dependencies.AndroidX.Room.ktx)
+    implementation(Dependencies.AndroidX.Room.paging)
 
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.datetime)
-    implementation(libs.timber)
+    implementation(Dependencies.KotlinX.serializationJson)
+    implementation(Dependencies.KotlinX.datetime)
+    implementation(Dependencies.timber)
 
-    implementation(libs.koin.core)
+    implementation(Dependencies.Koin.core)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.google.material)
-    testImplementation(libs.test.junit)
-    androidTestImplementation(libs.test.junit.android)
-    androidTestImplementation(libs.test.espresso)
+    implementation(Dependencies.AndroidX.ktx)
+    implementation(Dependencies.AndroidX.appcompat)
+    implementation(Dependencies.googleMaterial)
+    testImplementation(Dependencies.Test.junit)
+    androidTestImplementation(Dependencies.Test.androidxJunit)
+    androidTestImplementation(Dependencies.Test.espresso)
 }
