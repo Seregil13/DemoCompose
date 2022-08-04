@@ -2,13 +2,13 @@ package com.example.democompose.exploremovie
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.MovieApi
+import com.example.domain.model.MovieApi
 import com.example.domain.repository.MovieRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import com.example.domain.database.entity.MovieListItem as Movie
+import com.example.domain.model.MovieListItem as Movie
 
 class ExploreMoviesViewModel(
     private val repository: MovieRepository

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.domain.MovieApi
-import com.example.domain.database.entity.MovieListItem
+import com.example.domain.model.MovieApi
+import com.example.domain.model.MovieListItem
 import com.example.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 

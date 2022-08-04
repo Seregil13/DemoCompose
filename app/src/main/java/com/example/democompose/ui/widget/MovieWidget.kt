@@ -33,8 +33,9 @@ import com.example.democompose.R
 import com.example.democompose.ui.theme.DemoComposeTheme
 import com.example.domain.ImageUrlBuilder
 import com.example.domain.PosterImageSize
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
-import com.example.domain.database.entity.MovieListItem as Movie
+import com.example.domain.model.MovieListItem as Movie
 
 object MovieWidget {
 
@@ -47,7 +48,7 @@ object MovieWidget {
             modifier = Modifier
                 .padding(8.dp)
                 .clickable {
-                    onClick(movie.id)
+                    onClick(movie.movieId)
                 }
         ) {
             Row(
@@ -55,7 +56,7 @@ object MovieWidget {
             ) {
 
                 MovieImage(
-                    imagePath = movie.posterUrl,
+                    imagePath = movie.posterPath,
                     imageSize = PosterImageSize.W500,
                     contentDescription = movie.title,
                     modifier = Modifier
@@ -115,7 +116,7 @@ object MovieWidget {
                 val (image, title) = createRefs()
 
                 MovieImage(
-                    imagePath = movie.posterUrl,
+                    imagePath = movie.posterPath,
                     imageSize = PosterImageSize.W500,
                     contentDescription = movie.title,
                     modifier = Modifier
@@ -186,16 +187,15 @@ fun MovieFullWidthCardPreview() {
     DemoComposeTheme {
         MovieWidget.FullWidthCard(
             movie = Movie(
-                id = 0,
                 movieId = 1,
                 title = "Red Notice",
                 releaseDate = LocalDate(2020, 4, 3),
                 popularity = 4.0,
-                posterUrl = null,
+                posterPath = null,
                 overview = "This is the overview of a movie. This is the overview of a movie. This is the overview of a movie. This is the overview of a movie. This is the overview of a movie.",
                 api = "popular",
                 page = 1,
-                lastUpdateTime = null
+                lastUpdateTime = Clock.System.now()
             ),
             onClick = {}
         )
@@ -208,16 +208,15 @@ fun PreviewGridItem() {
     DemoComposeTheme {
         MovieWidget.GridItem(
             movie = Movie(
-                id = 0,
                 movieId = 1,
                 title = "Red Notice",
                 releaseDate = LocalDate(2020, 4, 3),
                 popularity = 4.0,
-                posterUrl = null,
+                posterPath = null,
                 overview = "This is the overview of a movie. This is the overview of a movie. This is the overview of a movie. This is the overview of a movie. This is the overview of a movie.",
                 api = "popular",
                 page = 1,
-                lastUpdateTime = null
+                lastUpdateTime = Clock.System.now()
             ),
             onClick = {}
         )

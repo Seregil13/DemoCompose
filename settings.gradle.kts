@@ -16,3 +16,4 @@ rootProject.name = "DemoCompose"
 include(":app")
 include(":network")
 include(":domain")
+include(":database")

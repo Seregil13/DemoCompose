@@ -19,8 +19,9 @@ import com.example.democompose.R
 import com.example.democompose.ui.theme.DemoComposeTheme
 import com.example.domain.ImageUrlBuilder
 import com.example.domain.PosterImageSize
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
-import com.example.domain.database.entity.MovieListItem as Movie
+import com.example.domain.model.MovieListItem as Movie
 
 @Composable
 fun MovieListItem(
@@ -32,16 +33,16 @@ fun MovieListItem(
         modifier = Modifier
             .padding(8.dp)
             .clickable {
-                onClick(movie.id)
+                onClick(movie.movieId)
             }
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
 
-            if (movie.posterUrl != null) {
+            if (movie.posterPath != null) {
                 AsyncImage(
-                    model = ImageUrlBuilder.getMoviePosterImageUrl(size = PosterImageSize.W185,movie.posterUrl!!),
+                    model = ImageUrlBuilder.getMoviePosterImageUrl(size = PosterImageSize.W185,movie.posterPath!!),
                     contentDescription = movie.title,
                     placeholder = painterResource(id = R.drawable.movies_placeholder),
                     modifier = Modifier
@@ -70,16 +71,15 @@ fun PreviewMovieListItem() {
     DemoComposeTheme {
         MovieListItem(
             movie = Movie(
-                id = 0,
                 movieId = 1,
                 title = "Red Notice",
                 releaseDate = LocalDate(2020, 4, 3),
                 popularity = 4.0,
-                posterUrl = null,
+                posterPath = null,
                 overview = "This is the overview of a movie.",
                 api = "popular",
                 page = 1,
-                lastUpdateTime = null
+                lastUpdateTime = Clock.System.now()
             ),
             onClick = {}
         )

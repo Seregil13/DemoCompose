@@ -5,29 +5,32 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.room.withTransaction
-import com.example.domain.MovieApi
-import com.example.domain.MovieRemoteMediator
-import com.example.domain.database.MoviesDao
-import com.example.domain.database.TheMovieDB
-import com.example.domain.database.entity.MovieListItem
-import com.example.domain.database.entity.PageKeys
+import com.example.database.MoviesDatabase
+import com.example.database.entity.PagingKeys
+import com.example.domain.model.MovieApi
+import com.example.domain.MovieListPagingSource
+import com.example.domain.model.MovieListItem
+import com.example.domain.toDatabaseMovie
+import com.example.domain.toDatabaseMovieDetail
+import com.example.domain.toDomainMovie
+import com.example.domain.toDomainMovieDetail
 import com.example.network.ITheMovieDbApiService
 import kotlinx.coroutines.flow.Flow
-import kotlin.time.Duration.Companion.hours
+import kotlinx.datetime.Clock
+import kotlin.time.Duration
+import com.example.database.entity.MovieDetail as DatabaseMovieDetail
+import com.example.domain.model.MovieDetailItem as DomainMovieDetail
 
 /**
  * Middleman between the view model/ui layer and the database/network layers
  */
 class MovieRepository(
     private val movieService: ITheMovieDbApiService,
-    private val database: TheMovieDB
+    private val database: MoviesDatabase,
 ) {
-
-    private val movieListDao = database.moviesDao()
-
     /**
      * Gets the list of movies for a certain [MovieApi] as found in [MoviesDao]. If the database
-     * doesn't have the matching data, fetches the data from the network using [MovieRemoteMediator]
+     * doesn't have the matching data, fetches the data from the network using [MovieListPagingSource]
      *
      * @param api A [MovieApi] that tells the database and network what
      * api (ie: [MovieApi.POPULAR], [MovieApi.LATEST]) that we are interested in.
@@ -36,10 +39,11 @@ class MovieRepository(
      */
     @OptIn(ExperimentalPagingApi::class)
     fun getPagedMovieList(api: MovieApi): Flow<PagingData<MovieListItem>> = Pager(
-        config = PagingConfig(pageSize = 20, initialLoadSize = 20),
-        remoteMediator = MovieRemoteMediator(database, movieService, api, 1.hours),
-        pagingSourceFactory = { movieListDao.pagingSource(api.name) }
-    ).flow
+        PagingConfig(pageSize = 20)
+    ) {
+        MovieListPagingSource(database, movieService, api)
+    }
+        .flow
 
     /**
      * Gets a list of movies from either the database or network.
@@ -53,18 +57,16 @@ class MovieRepository(
      */
     suspend fun getMovieList(api: MovieApi, page: Int): List<MovieListItem> {
         // Check for data from database
-        val data = movieListDao.getMovies(api.name, page)
-        if (data.isNotEmpty()) return data
+        val data = database.movieListDao().getMovies(api.name, page)
+        if (data.isNotEmpty()) return data.map { it.toDomainMovie() }
 
         // If no data locally fetch from network
         val movies = movieService.movies(api.toNetworkApi(), page)
-            .results.map {
-                MovieListItem.fromNetworkObject(it, api.name, page)
-            }
+            .results.map { it.toDomainMovie(api, page) }
 
         database.withTransaction {
-            database.pageDao().insert(PageKeys(api.name, page))
-            database.moviesDao().insertAll(movies)
+            database.pagingKeysDao().insert(PagingKeys(api.name, page))
+            database.movieListDao().insertAll(movies.map { it.toDatabaseMovie() })
         }
 
         return movies
@@ -73,5 +75,24 @@ class MovieRepository(
     /**
      * Get the movie details
      */
-    fun getMovieDetails(movieId: Int) = movieId
+    suspend fun getMovieDetails(
+        movieId: Int,
+        cacheTimeout: Duration
+    ): DomainMovieDetail {
+        // First check the database for the movie
+        val dbDetails: DatabaseMovieDetail? = database.movieDetailsDao().getDetails(movieId)
+        // Check if the movie exists and is not stale
+        if (dbDetails != null && Clock.System.now() - dbDetails.lastUpdateTime < cacheTimeout)
+            return dbDetails.toDomainMovieDetail()
+
+        // Fetch details from the network
+        val nDetails: DomainMovieDetail = movieService.movie(movieId).toDomainMovieDetail()
+
+        // Save the movie to the database
+        database.withTransaction {
+            database.movieDetailsDao().insert(nDetails.toDatabaseMovieDetail())
+        }
+
+        return nDetails
+    }
 }

@@ -3,15 +3,14 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     alias(libs.plugins.ksp)
-    alias(libs.plugins.serialization)
 }
 
 android {
-    namespace = "com.example.domain"
+    namespace = "com.example.database"
     compileSdk = 32
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 24
         targetSdk = 32
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -37,19 +36,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":network"))
-    implementation(project(":database"))
-
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.compose)
 
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler)
 
-    implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
-    implementation(libs.timber)
-
     implementation(libs.koin.core)
 
     implementation(libs.androidx.core.ktx)

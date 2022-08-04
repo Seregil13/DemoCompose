@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.democompose.ui.widget.MovieList
-import com.example.domain.MovieApi
-import com.example.domain.database.entity.MovieListItem
+import com.example.domain.model.MovieApi
+import com.example.domain.model.MovieListItem as Movie
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -90,7 +90,7 @@ fun MovieExploreScreen(
 
 @Composable
 fun ExploreMovieSection(
-    movieList: List<MovieListItem>,
+    movieList: List<Movie>,
     header: String,
     onHeaderClicked: () -> Unit,
     onMovieClicked: (movieId: Int) -> Unit

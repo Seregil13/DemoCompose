@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.democompose.ui.widget.MovieWidget
-import com.example.domain.MovieApi
+import com.example.domain.model.MovieApi
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
