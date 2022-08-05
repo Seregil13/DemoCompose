@@ -2,7 +2,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    alias(libs.plugins.ksp)
+    id("com.google.devtools.ksp") version("1.7.0-1.0.6")
 }
 
 android {
@@ -37,16 +37,18 @@ android {
 
 dependencies {
 
-    implementation(libs.bundles.room)
-    ksp(libs.androidx.room.compiler)
+    implementation("androidx.room:room-runtime:2.4.3")
+    ksp("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
+    implementation("androidx.room:room-paging:2.4.3")
 
-    implementation(libs.kotlinx.datetime)
-    implementation(libs.koin.core)
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation("io.insert-koin:koin-core:3.2.0")
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.google.material)
-    testImplementation(libs.test.junit)
-    androidTestImplementation(libs.test.junit.android)
-    androidTestImplementation(libs.test.espresso)
+    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("com.google.android.material:material:1.6.1")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }

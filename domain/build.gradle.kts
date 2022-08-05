@@ -2,8 +2,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.serialization)
+    id("org.jetbrains.kotlin.plugin.serialization") version("1.7.0")
+    id("com.google.devtools.ksp") version("1.7.0-1.0.6")
 }
 
 android {
@@ -40,22 +40,24 @@ dependencies {
     implementation(project(":network"))
     implementation(project(":database"))
 
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.compose)
+    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha15")
 
-    implementation(libs.bundles.room)
-    ksp(libs.androidx.room.compiler)
+    implementation("androidx.room:room-runtime:2.4.3")
+    ksp("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
+    implementation("androidx.room:room-paging:2.4.3")
 
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.datetime)
-    implementation(libs.timber)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation("com.jakewharton.timber:timber:5.0.1")
 
-    implementation(libs.koin.core)
+    implementation("io.insert-koin:koin-core:3.2.0")
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.google.material)
-    testImplementation(libs.test.junit)
-    androidTestImplementation(libs.test.junit.android)
-    androidTestImplementation(libs.test.espresso)
+    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("com.google.android.material:material:1.6.1")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
