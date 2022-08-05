@@ -62,8 +62,8 @@ dependencies {
     implementation(libs.koin.compose)
 
     implementation(libs.bundles.compose)
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation(libs.androidx.lifecycle.runtime)
+    testImplementation(libs.test.junit)
+    androidTestImplementation(libs.test.junit.android)
+    androidTestImplementation(libs.test.espresso)
 }

@@ -7,6 +7,7 @@ room = "2.4.3"
 ksp = "1.7.0-1.0.6"
 coil = "2.1.0"
 koin = "3.2.0"
+lifecycle = "2.3.1"
 
 [libraries]
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
@@ -40,6 +41,7 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 
 androidx-core-ktx = { module = "androidx.core:core-ktx", version = "1.7.0" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.4.2" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 
 google-material = { module = "com.google.android.material:material", version = "1.6.1"}
 
@@ -58,6 +60,11 @@ timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+
+classpath-agp = { module = "com.android.tools.build:gradle", version = "7.2.1" }
+classpath-kgp = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+classpath-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version = "1.5.0" }
+classpath-gms = { module = "com.google.gms:google-services", version = "4.3.5" }
 
 [bundles]
 compose = [

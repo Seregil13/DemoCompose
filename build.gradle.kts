@@ -5,10 +5,10 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:7.2.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.5.0")
-        classpath("com.google.gms:google-services:4.3.5")
+        classpath(libs.classpath.agp)
+        classpath(libs.classpath.kgp)
+        classpath(libs.classpath.dokka)
+        classpath(libs.classpath.gms)
     }
 }
 
