@@ -7,8 +7,8 @@ import androidx.paging.PagingData
 import androidx.room.withTransaction
 import com.example.database.MoviesDatabase
 import com.example.database.entity.PagingKeys
-import com.example.domain.model.MovieApi
 import com.example.domain.MovieListPagingSource
+import com.example.domain.model.MovieApi
 import com.example.domain.model.MovieListItem
 import com.example.domain.toDatabaseMovie
 import com.example.domain.toDatabaseMovieDetail
@@ -18,6 +18,7 @@ import com.example.network.ITheMovieDbApiService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Clock
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 import com.example.database.entity.MovieDetail as DatabaseMovieDetail
 import com.example.domain.model.MovieDetailItem as DomainMovieDetail
 
@@ -77,7 +78,7 @@ class MovieRepository(
      */
     suspend fun getMovieDetails(
         movieId: Int,
-        cacheTimeout: Duration
+        cacheTimeout: Duration = 1.days
     ): DomainMovieDetail {
         // First check the database for the movie
         val dbDetails: DatabaseMovieDetail? = database.movieDetailsDao().getDetails(movieId)

@@ -2,10 +2,6 @@ package com.example.democompose.ui.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -51,50 +47,86 @@ object MovieWidget {
                     onClick(movie.movieId)
                 }
         ) {
-            Row(
+            ConstraintLayout(
                 modifier = Modifier.fillMaxWidth()
-            ) {
+            ){
+                val (image, title, divider, releaseDate, summary) = createRefs()
 
                 MovieImage(
                     imagePath = movie.posterPath,
                     imageSize = PosterImageSize.W500,
                     contentDescription = movie.title,
                     modifier = Modifier
-                        .fillMaxHeight()
+                        .constrainAs(image) {
+                            linkTo(
+                                start = parent.start,
+                                end = parent.end,
+                                bias = 0f
+                            )
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            height = Dimension.fillToConstraints
+                        }
                 )
 
-                Column(
-                    verticalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxHeight()
-                ) {
+                Text(
+                    text = movie.title,
+                    fontSize = 24.sp,
+                    softWrap = false,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .constrainAs(title) {
+                            top.linkTo(parent.top, margin = 8.dp)
+                            bottom.linkTo(divider.top, margin = 4.dp)
+                            start.linkTo(image.end, margin = 8.dp)
+                            end.linkTo(parent.end, margin = 8.dp)
+                        }
+                )
+
+                Divider(
+                    modifier = Modifier
+                        .constrainAs(divider) {
+                            start.linkTo(image.end)
+                            end.linkTo(parent.end)
+                            top.linkTo(title.bottom)
+                            bottom.linkTo(releaseDate.top)
+                        }
+                )
+
+                movie.releaseDate?.let {
                     Text(
-                        text = movie.title,
-                        fontSize = 24.sp,
-                        softWrap = false,
+                        text = "Released ${it.month} ${it.dayOfMonth}, ${it.year}",
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp)
-                    )
-
-                    Divider()
-
-                    movie.releaseDate?.let {
-                        Text(
-                            text = "Released ${it.month} ${it.dayOfMonth}, ${it.year}",
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
-                    }
-
-                    Text(
-                        text = movie.overview,
-                        maxLines = 3,
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
+                            .constrainAs(releaseDate) {
+                                start.linkTo(image.end, margin = 8.dp)
+                                end.linkTo(parent.end, margin = 8.dp)
+                                top.linkTo(divider.bottom, margin = 4.dp)
+                                bottom.linkTo(summary.top)
+                            }
                     )
                 }
+
+                Text(
+                    text = movie.overview,
+                    maxLines = 3,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .constrainAs(summary) {
+                            linkTo(
+                                top = releaseDate.bottom,
+                                bottom = parent.bottom,
+                                topMargin = 8.dp,
+                                bottomMargin = 8.dp,
+                                bias = 1f
+                            )
+
+                            start.linkTo(image.end, margin = 8.dp)
+                            end.linkTo(parent.end, margin = 8.dp)
+                            
+                            width = Dimension.fillToConstraints
+                        }
+                )
             }
         }
     }
