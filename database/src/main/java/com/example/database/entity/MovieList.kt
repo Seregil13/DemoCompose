@@ -2,13 +2,11 @@ package com.example.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 
-@Entity(tableName = "movie_list")
+@Entity(tableName = "movie_list", primaryKeys = ["api", "page", "movie_id"])
 data class MovieList(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "movie_id") val movieId: Int,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "releaseDate") val releaseDate: LocalDate?,

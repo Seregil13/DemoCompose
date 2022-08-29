@@ -18,8 +18,8 @@ interface MovieListDao {
     @Query("DELETE FROM movie_list WHERE api = :api")
     suspend fun clearAll(api: String)
 
-    @Query("DELETE FROM MOVIE_LIST where page = :page")
-    suspend fun deleteByPage(page: Int)
+    @Query("DELETE FROM movie_list WHERE page = :page AND api = :api")
+    suspend fun deleteByPage(api: String, page: Int)
 
     @Query("SELECT * FROM movie_list WHERE api = :api")
     suspend fun getMovies(api: String): List<MovieList>

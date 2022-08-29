@@ -54,7 +54,7 @@ class MovieListPagingSource(
                 )
             } else {
                 database.withTransaction {
-                    database.movieListDao().deleteByPage(pageNumber)
+                    database.movieListDao().deleteByPage(api.name, pageNumber)
                 }
             }
         }

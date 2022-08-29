@@ -58,7 +58,7 @@ fun MovieDetails(
     movie: Movie
 ) {
     
-
+    Text(text = movie.title)
 
 }
 

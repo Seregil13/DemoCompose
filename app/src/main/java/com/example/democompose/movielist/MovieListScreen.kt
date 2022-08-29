@@ -9,12 +9,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.core.domain.MovieApi
 import com.example.democompose.ui.widget.MovieWidget
-import com.example.domain.model.MovieApi
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -26,15 +26,16 @@ fun MovieListScreen(
     showUpButton: (Boolean) -> Unit,
     viewModel: MovieListViewModel = getViewModel(parameters = { parametersOf(movieApi) })
 ) {
-    val movies = viewModel.movies.collectAsLazyPagingItems()
+    val state by viewModel.state.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
+        viewModel.loadNextItems()
         setScaffoldTitle(movieApi.toDisplayName())
         showUpButton(true)
     }
 
     LazyColumn {
-        if (movies.loadState.refresh == LoadState.Loading) {
+        if (state.movies.isEmpty() && state.loading) {
             item {
                 CircularProgressIndicator(
                     modifier = Modifier
@@ -45,8 +46,11 @@ fun MovieListScreen(
             }
         }
 
-        items(movies.itemCount) { index ->
-            val movie = movies[index] ?: return@items
+        items(state.movies.size) {index ->
+            val movie = state.movies[index]
+            if (index >= state.movies.size - 1 && !state.endReached && !state.loading) {
+                viewModel.loadNextItems()
+            }
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -59,7 +63,7 @@ fun MovieListScreen(
             }
         }
 
-        if (movies.loadState.append == LoadState.Loading) {
+        if (state.movies.isNotEmpty() && state.loading) {
             item {
                 CircularProgressIndicator(
                     modifier = Modifier

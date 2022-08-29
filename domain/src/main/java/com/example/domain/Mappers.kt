@@ -13,7 +13,7 @@ import com.example.network.response.MovieResponse as NetworkMovieDetail
 
 fun DatabaseMovie.toDomainMovie(): DomainMovie {
     return DomainMovie(
-        movieId = this.id,
+        movieId = this.movieId,
         title = this.title,
         releaseDate = this.releaseDate,
         popularity = this.popularity,

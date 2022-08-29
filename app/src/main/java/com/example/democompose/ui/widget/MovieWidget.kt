@@ -29,9 +29,8 @@ import com.example.democompose.R
 import com.example.democompose.ui.theme.DemoComposeTheme
 import com.example.domain.ImageUrlBuilder
 import com.example.domain.PosterImageSize
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
-import com.example.domain.model.MovieListItem as Movie
+import com.example.core.domain.MovieListItem as Movie
 
 object MovieWidget {
 
@@ -225,9 +224,6 @@ fun MovieFullWidthCardPreview() {
                 popularity = 4.0,
                 posterPath = null,
                 overview = "This is the overview of a movie. This is the overview of a movie. This is the overview of a movie. This is the overview of a movie. This is the overview of a movie.",
-                api = "popular",
-                page = 1,
-                lastUpdateTime = Clock.System.now()
             ),
             onClick = {}
         )
@@ -246,9 +242,6 @@ fun PreviewGridItem() {
                 popularity = 4.0,
                 posterPath = null,
                 overview = "This is the overview of a movie. This is the overview of a movie. This is the overview of a movie. This is the overview of a movie. This is the overview of a movie.",
-                api = "popular",
-                page = 1,
-                lastUpdateTime = Clock.System.now()
             ),
             onClick = {}
         )

@@ -47,11 +47,15 @@ android {
 dependencies {
     implementation(project(":network"))
     implementation(project(":domain"))
+    implementation(project(":database"))
+    implementation(project(":core"))
 
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
 
     implementation(libs.kotlinx.datetime)
+
+    implementation(libs.bundles.room)
 
     implementation(libs.coil.core)
     implementation(libs.coil.compose)

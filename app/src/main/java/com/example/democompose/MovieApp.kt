@@ -26,9 +26,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.core.domain.MovieApi
 import com.example.democompose.exploremovie.MovieExploreScreen
 import com.example.democompose.movielist.MovieListScreen
-import com.example.domain.model.MovieApi
 import timber.log.Timber
 
 @Composable
